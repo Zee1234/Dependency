@@ -11,14 +11,15 @@ before_install:
 
 install:
   - luarocks install luafilesystem
+  - luarocks install luasec OPENSSL_LIBDIR=/usr/lib/x86_64-linux-gnu/
   - luarocks install luasocket
   - luarocks install luacheck
   - luarocks install luacov
   - luarocks install luacov-coveralls
   - luarocks install lsqlite3
-  - git clone --depth=1 --branch=luasec-0.6 git://github.com/brunoos/luasec.git
-  - cd luasec
-  - luarocks make OPENSSL_LIBDIR=/usr/lib/x86_64-linux-gnu/
+#  - git clone --depth=1 --branch=luasec-0.6 git://github.com/brunoos/luasec.git
+#  - cd luasec
+#  - luarocks make OPENSSL_LIBDIR=/usr/lib/x86_64-linux-gnu/
   - wget -O $TRAVIS_BUILD_DIR/../InfoReg.lua https://raw.githubusercontent.com/cuberite/cuberite/master/Server/Plugins/InfoReg.lua
   - mkdir ~/AutoAPI
   - wget -O ~/AutoAPI.zip --no-check-certificate https://builds.cuberite.org/job/Cuberite%20Windows%20x64%20Master/lastSuccessfulBuild/artifact/AutoAPI.zip
