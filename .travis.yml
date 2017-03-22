@@ -28,7 +28,7 @@ install:
   - git clone https://github.com/cuberite/CuberitePluginChecker ~/Checker
 
 script:
-  - luacheck init.lua spec
+  - luacheck $TRAVIS_BUILD_DIR/init.lua
   - cd ~/Checker
   - >
     lua CuberitePluginChecker.lua
