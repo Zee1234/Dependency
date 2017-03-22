@@ -1,0 +1,51 @@
+language: python
+sudo: false
+
+env:
+  - LUA="lua=5.1"
+
+before_install:
+  - pip install hererocks
+  - hererocks lua_install -r^ --$LUA
+  - export PATH=$PATH:$PWD/lua_install/bin
+
+install:
+  - luarocks --local install luafilesystem
+  - luarocks --local install luacheck
+  - luarocks --local install luacov
+  - luarocks --local install luacov-coveralls
+  - luarocks --local install lsqlite3
+  - luarocks --local install luasocket
+  - git clone --depth=1 --branch=luasec-0.6 git://github.com/brunoos/luasec.git
+  - cd luasec && luarocks --local make OPENSSL_LIBDIR=/usr/lib/x86_64-linux-gnu/
+  - wget -O $TRAVIS_BUILD_DIR/../InfoReg.lua https://raw.githubusercontent.com/cuberite/cuberite/master/Server/Plugins/InfoReg.lua
+  - mkdir ~/AutoAPI
+  - wget -O ~/AutoAPI.zip --no-check-certificate https://builds.cuberite.org/job/Cuberite%20Windows%20x64%20Master/lastSuccessfulBuild/artifact/AutoAPI.zip
+  - unzip ~/AutoAPI.zip -d ~/AutoAPI
+  - wget -O ~/ManualAPI.zip --no-check-certificate https://builds.cuberite.org/job/Cuberite%20Windows%20x64%20Master/lastSuccessfulBuild/artifact/ManualAPI.zip
+  - unzip ~/ManualAPI.zip -d ~
+  - git clone https://github.com/cuberite/CuberitePluginChecker ~/Checker
+
+script:
+  - luacheck --std max *.lua spec
+  - eval `luarocks path --bin`
+  - cd ~/Checker
+  - >
+    lua CuberitePluginChecker.lua
+    -p $TRAVIS_BUILD_DIR
+    -a ~/AutoAPI
+    -e ~/ManualAPI.lua
+    -i APIImpl/All.lua
+    -s $TRAVIS_BUILD_DIR/tests/first.lua
+    -g
+
+#after_success:
+#  - >
+#    luacov-coveralls -e
+#    $TRAVIS_BUILD_DIR/lua_install
+#    $TRAVIS_BUILD_DIR/luasec
+#    $TRAVIS_BUILD_DIR/../InfoReg.lua
+#    $TRAVIS_BUILD_DIR/ManualAPI
+#    $TRAVIS_BUILD_DIR/AutoAPI
+#    $TRAVIS_BUILD_DIR/Checker
+#
