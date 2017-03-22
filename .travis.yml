@@ -28,7 +28,7 @@ install:
   - git clone https://github.com/cuberite/CuberitePluginChecker ~/Checker
 
 script:
-  - luacheck --std max *.lua spec
+  - luacheck init.lua spec
   - cd ~/Checker
   - >
     lua CuberitePluginChecker.lua
