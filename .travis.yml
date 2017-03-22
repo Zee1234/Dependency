@@ -11,7 +11,6 @@ before_install:
 
 install:
   - luarocks --local install luafilesystem
-  - luarocks --local install luacheck
   - luarocks --local install luacov
   - luarocks --local install luacov-coveralls
   - luarocks --local install lsqlite3
@@ -27,7 +26,6 @@ install:
   - git clone https://github.com/cuberite/CuberitePluginChecker ~/Checker
 
 script:
-  - luacheck --std max *.lua spec
   - eval `luarocks path --bin`
   - cd ~/Checker
   - >
@@ -39,13 +37,12 @@ script:
     -s $TRAVIS_BUILD_DIR/tests/first.lua
     -g
 
-#after_success:
-#  - >
-#    luacov-coveralls -e
-#    $TRAVIS_BUILD_DIR/lua_install
-#    $TRAVIS_BUILD_DIR/luasec
-#    $TRAVIS_BUILD_DIR/../InfoReg.lua
-#    $TRAVIS_BUILD_DIR/ManualAPI
-#    $TRAVIS_BUILD_DIR/AutoAPI
-#    $TRAVIS_BUILD_DIR/Checker
-#
+after_success:
+  - >
+    luacov-coveralls -e
+    $TRAVIS_BUILD_DIR/lua_install
+    $TRAVIS_BUILD_DIR/luasec
+    $TRAVIS_BUILD_DIR/../InfoReg.lua
+    $TRAVIS_BUILD_DIR/ManualAPI
+    $TRAVIS_BUILD_DIR/AutoAPI
+    $TRAVIS_BUILD_DIR/Checker
