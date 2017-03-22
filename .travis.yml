@@ -10,11 +10,11 @@ before_install:
   - export PATH=$PATH:$PWD/lua_install/bin
 
 install:
-  - luarocks --local install luafilesystem
-  - luarocks --local install luacov
-  - luarocks --local install luacov-coveralls
-  - luarocks --local install lsqlite3
-  - luarocks --local install luasocket
+  - luarocks install luafilesystem
+  - luarocks install luacov
+  - luarocks install luacov-coveralls
+  - luarocks install lsqlite3
+  - luarocks install luasocket
   - git clone --depth=1 --branch=luasec-0.6 git://github.com/brunoos/luasec.git
   - cd luasec && luarocks --local make OPENSSL_LIBDIR=/usr/lib/x86_64-linux-gnu/
   - wget -O $TRAVIS_BUILD_DIR/../InfoReg.lua https://raw.githubusercontent.com/cuberite/cuberite/master/Server/Plugins/InfoReg.lua
@@ -26,7 +26,6 @@ install:
   - git clone https://github.com/cuberite/CuberitePluginChecker ~/Checker
 
 script:
-  - eval `luarocks path --bin`
   - cd ~/Checker
   - >
     lua CuberitePluginChecker.lua
