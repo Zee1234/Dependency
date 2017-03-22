@@ -35,6 +35,7 @@ script:
     -e ~/ManualAPI.lua
     -i APIImpl/All.lua
     -s $TRAVIS_BUILD_DIR/tests/first.lua
+    -l 1
     -g
 
 after_success:
