@@ -4,6 +4,11 @@ sudo: false
 env:
   - LUA="lua=5.1"
 
+addons:
+  apt:
+    packages:
+      - libsqlite3-dev
+
 before_install:
   - pip install hererocks
   - hererocks lua_install -r^ --$LUA
