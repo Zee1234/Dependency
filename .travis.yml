@@ -1,0 +1,42 @@
+language: python
+sudo: false
+
+env:
+  - LUA="lua=5.1"
+
+addons:
+  apt:
+    packages:
+      - libsqlite3-dev
+      - clang
+      - cmake
+      - make
+
+before_install:
+  - pip install hererocks
+  - hererocks lua_install -r^ --$LUA
+  - export PATH=$PATH:$PWD/lua_install/bin
+
+install:
+  - mkdir plugins
+  - mv -v ./* ./Server/Plugins/
+  - luarocks install luafilesystem
+  - luarocks install luasocket
+  - luarocks install luasec OPENSSL_LIBDIR=/usr/lib/x86_64-linux-gnu/
+  - luarocks install luacheck
+  - luarocks install luacov
+  - luarocks install luacov-coveralls
+  - luarocks install lsqlite3
+#  - git clone --recursive https://github.com/cuberite/cuberite.git
+#  - cd cuberite
+#  - cmake . -DCMAKE_BUILD_TYPE=RELEASE
+#  - make -j 2
+  - curl -sSfL https://download.cuberite.org | sh
+
+script:
+  - luacheck $TRAVIS_BUILD_DIR/init.lua
+  - cd ~/Server
+  - ./Cuberite
+
+after_success:
+  - luacov-coveralls -i $TRAVIS_BUILD_DIR/Server/Plugins/Dependency
