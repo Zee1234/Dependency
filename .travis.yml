@@ -36,7 +36,7 @@ install:
 
 script:
   - luacheck $TRAVIS_BUILD_DIR/init.lua
-  - cd ~/Server
+  - cd $TRAVIS_BUILD_DIR/Server
   - ./Cuberite
 
 after_success:
