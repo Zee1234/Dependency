@@ -18,7 +18,8 @@ before_install:
   - export PATH=$PATH:$PWD/lua_install/bin
 
 install:
-  - mkdir plugins
+  - mkdir Server
+  - mkdir Server/Plugins
   - mv -v ./* ./Server/Plugins/
   - luarocks install luafilesystem
   - luarocks install luasocket
