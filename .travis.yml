@@ -18,9 +18,6 @@ before_install:
   - export PATH=$PATH:$PWD/lua_install/bin
 
 install:
-  - mkdir Server
-  - mkdir Server/Plugins
-  - mv -v ./* ./Server/Plugins/
   - luarocks install luafilesystem
   - luarocks install luasocket
   - luarocks install luasec OPENSSL_LIBDIR=/usr/lib/x86_64-linux-gnu/
@@ -33,6 +30,9 @@ install:
 #  - cmake . -DCMAKE_BUILD_TYPE=RELEASE
 #  - make -j 2
   - curl -sSfL https://download.cuberite.org | sh
+  - cd Server
+  - cd Plugins
+  - git clone https://github.com/Zee1234/Dependency.git
 
 script:
   - luacheck $TRAVIS_BUILD_DIR/init.lua
